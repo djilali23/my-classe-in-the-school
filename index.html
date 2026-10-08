@@ -281,5 +281,20 @@
     <footer class="foot">بوابة القسم · صُنع بحب 💙</footer>
 
     <script type="module" src="script.js"></script>
+    
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("./service-worker.js")
+        .catch((error) => {
+          console.error(
+            "تعذر تسجيل Service Worker:",
+            error
+          );
+        });
+    });
+  }
+</script>
   </body>
 </html>
