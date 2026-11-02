@@ -7,12 +7,11 @@
     <title>بوابة قسمنا</title>
     <meta name="theme-color" content="#4f46e5" />
     
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#4f46e5">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="بوابة قسمنا">
-<link rel="icon" href="./icon-192.png" type="image/png">
-<link rel="apple-touch-icon" href="./icon-192.png">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="بوابة قسمنا">
+    <link rel="icon" href="./icon-192.png" type="image/png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -78,7 +77,9 @@
           role="region"
           aria-label="جدول استعمال الزمن"
         >
-          <table id="table"></table>
+          <table id="table">
+            <!-- ملاحظة: إذا قمت بتوليد الجدول ديناميكياً من الجافاسكريبت، تأكد من إضافة style="--lesson-color: [لون المادة];" و colspan="2" للحصص ذات الساعتين وحذف الخانة الفارغة المجاورة -->
+          </table>
         </div>
       </section>
 
@@ -282,19 +283,19 @@
 
     <script type="module" src="script.js"></script>
     
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("./service-worker.js")
-        .catch((error) => {
-          console.error(
-            "تعذر تسجيل Service Worker:",
-            error
-          );
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./service-worker.js")
+            .catch((error) => {
+              console.error(
+                "تعذر تسجيل Service Worker:",
+                error
+              );
+            });
         });
-    });
-  }
-</script>
+      }
+    </script>
   </body>
 </html>
