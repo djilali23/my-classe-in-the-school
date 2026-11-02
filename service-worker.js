@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "boabat-qismna-v1";
+const CACHE_NAME = "boabat-qismna-v2";
 
 const APP_FILES = [
   "./",
