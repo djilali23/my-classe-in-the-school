@@ -1,6 +1,12 @@
+
 "use strict";
 
+/* =========================================
+   1. Firebase imports
+========================================= */
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -24,9 +30,9 @@ import {
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-/* =========================
-   Firebase
-========================= */
+/* =========================================
+   2. Firebase configuration
+========================================= */
 
 const firebaseConfig = {
   apiKey: "AIzaSyDiT1PTvBsswq8TsotPuvrWCX5UCo-FTO4",
@@ -41,9 +47,9 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* =========================
-   الإعدادات
-========================= */
+/* =========================================
+   3. إعدادات الموقع
+========================================= */
 
 const CONFIG = {
   className: "قسم 1L1",
@@ -52,7 +58,6 @@ const CONFIG = {
 
   adminEmail: "djilalitheking23@gmail.com",
 
-  /* غيّر هذا الرمز قبل نشر الموقع */
   inviteCode: "1L1-2026",
 
   maxHomeworkLength: 500,
@@ -60,9 +65,9 @@ const CONFIG = {
   chatCooldown: 3000,
 };
 
-/* =========================
-   التلاميذ
-========================= */
+/* =========================================
+   4. قائمة التلاميذ
+========================================= */
 
 const STUDENTS = [
   { n: "رحيم جيلالي" },
@@ -86,65 +91,97 @@ const STUDENTS = [
   { n: "بن مرخي إيناس", g: "f" },
 ];
 
-/* =========================
-   استعمال الزمن
-========================= */
+/* =========================================
+   5. استعمال الزمن
+   جميع الأوقات بالدقائق
+========================================= */
 
-const DAYS = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس"];
-
-const TT = [
-  [
-    { s: 8, e: 10, t: "لغة عربية" },
-    { s: 10, e: 12, t: "تربية بدنية" },
-    { s: 13, e: 14, t: "علوم إسلامية" },
-    { s: 14, e: 15, t: "رياضيات" },
-    { s: 15, e: 16 },
-  ],
-  [
-    { s: 8, e: 10, t: "لغة فرنسية" },
-    { s: 10, e: 12, t: "لغة إنجليزية" },
-    { s: 13, e: 14, t: "علوم طبيعية" },
-    { s: 14, e: 15, t: "إعلام آلي" },
-    { s: 15, e: 16, t: "تاريخ وجغرافيا" },
-  ],
-  [
-    { s: 8, e: 10, t: "لغة عربية" },
-    { s: 10, e: 12, t: "رياضيات" },
-    { s: 13, e: 15, t: ["علوم", "فيزياء"] },
-    { s: 15, e: 16, t: "تاريخ وجغرافيا" },
-  ],
-  [
-    { s: 8, e: 10, t: ["لغة عربية", "إعلام آلي"] },
-    { s: 10, e: 12, t: "لغة فرنسية" },
-    { s: 13, e: 14, t: "تاريخ وجغرافيا" },
-    { s: 14, e: 15, t: "لغة إنجليزية" },
-    { s: 15, e: 16, t: "علوم إسلامية" },
-  ],
-  [
-    { s: 8, e: 9, t: "لغة عربية" },
-    { s: 9, e: 10, t: "لغة إنجليزية" },
-    { s: 10, e: 11, t: "فيزياء" },
-    { s: 11, e: 12, t: "تاريخ وجغرافيا" },
-    { s: 13, e: 16, t: "لا ندرس مساءً", off: true },
-  ],
+const DAYS = [
+  "الأحد",
+  "الإثنين",
+  "الثلاثاء",
+  "الأربعاء",
+  "الخميس",
 ];
 
-const HEAD = [
-  "08–09",
-  "09–10",
-  "10–11",
-  "11–12",
-  "12–13:30",
-  "13:30–14:30",
-  "14:30–15:30",
-  "15:30–16:30",
+const SLOTS = [
+  { s: 480, e: 540, label: "08:00–09:00" },
+  { s: 540, e: 600, label: "09:00–10:00" },
+  { s: 600, e: 660, label: "10:00–11:00" },
+  { s: 660, e: 720, label: "11:00–12:00" },
+  { s: 720, e: 810, label: "12:00–13:30", break: true },
+  { s: 810, e: 870, label: "13:30–14:30" },
+  { s: 870, e: 930, label: "14:30–15:30" },
+  { s: 930, e: 990, label: "15:30–16:30" },
+];
+
+const TT = [
+  // الأحد
+  [
+    { s: 480, e: 600, t: "لغة عربية" },
+    { s: 600, e: 720, t: "تربية بدنية" },
+    { s: 810, e: 870, t: "علوم إسلامية" },
+    { s: 870, e: 930, t: "رياضيات" },
+    { s: 930, e: 990 },
+  ],
+
+  // الإثنين
+  [
+    { s: 480, e: 600, t: "لغة فرنسية" },
+    { s: 600, e: 720, t: "لغة إنجليزية" },
+    { s: 810, e: 870, t: "علوم طبيعية" },
+    { s: 870, e: 930, t: "إعلام آلي" },
+    { s: 930, e: 990, t: "تاريخ وجغرافيا" },
+  ],
+
+  // الثلاثاء
+  [
+    { s: 480, e: 600, t: "لغة عربية" },
+    { s: 600, e: 720, t: "رياضيات" },
+    {
+      s: 810,
+      e: 930,
+      t: ["علوم", "فيزياء"],
+      group: true,
+    },
+    { s: 930, e: 990, t: "تاريخ وجغرافيا" },
+  ],
+
+  // الأربعاء
+  [
+    {
+      s: 480,
+      e: 600,
+      t: ["لغة عربية", "إعلام آلي"],
+      group: true,
+    },
+    { s: 600, e: 720, t: "لغة فرنسية" },
+    { s: 810, e: 870, t: "تاريخ وجغرافيا" },
+    { s: 870, e: 930, t: "لغة إنجليزية" },
+    { s: 930, e: 990, t: "علوم إسلامية" },
+  ],
+
+  // الخميس
+  [
+    { s: 480, e: 540, t: "لغة عربية" },
+    { s: 540, e: 600, t: "لغة إنجليزية" },
+    { s: 600, e: 660, t: "فيزياء" },
+    { s: 660, e: 720, t: "تاريخ وجغرافيا" },
+    {
+      s: 810,
+      e: 990,
+      t: "لا ندرس مساءً",
+      off: true,
+    },
+  ],
 ];
 
 const COLORS = {
   "لغة عربية": "#e11d48",
-  رياضيات: "#4f46e5",
-  علوم: "#16a34a",
-  فيزياء: "#0891b2",
+  "رياضيات": "#4f46e5",
+  "علوم": "#16a34a",
+  "علوم طبيعية": "#16a34a",
+  "فيزياء": "#0891b2",
   "لغة فرنسية": "#7c3aed",
   "لغة إنجليزية": "#d97706",
   "تاريخ وجغرافيا": "#b45309",
@@ -153,9 +190,9 @@ const COLORS = {
   "إعلام آلي": "#0ea5e9",
 };
 
-/* =========================
-   أدوات عامة
-========================= */
+/* =========================================
+   6. أدوات عامة
+========================================= */
 
 const $ = (id) => document.getElementById(id);
 
@@ -180,8 +217,15 @@ function label(subject) {
   return subject || "—";
 }
 
-function hh(hour) {
-  return `${String(hour).padStart(2, "0")}:00`;
+function hh(minutes) {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+
+  return (
+    String(h).padStart(2, "0") +
+    ":" +
+    String(m).padStart(2, "0")
+  );
 }
 
 function normalizeUsername(value) {
@@ -205,13 +249,15 @@ function authEmailFromIdentifier(value) {
 function isAdminUser(user = auth.currentUser) {
   return Boolean(
     user &&
-      user.email &&
-      user.email.toLowerCase() === CONFIG.adminEmail.toLowerCase(),
+    user.email &&
+    user.email.toLowerCase() ===
+      CONFIG.adminEmail.toLowerCase()
   );
 }
 
 function todayString() {
   const now = new Date();
+
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
@@ -256,9 +302,13 @@ function formatTime(timestamp) {
   });
 }
 
-/* =========================
-   الصفحة الرئيسية
-========================= */
+function dur(start, end) {
+  return Math.max(0, end - start);
+}
+
+/* =========================================
+   7. الصفحة الرئيسية
+========================================= */
 
 function renderHero() {
   $("year").textContent = CONFIG.year;
@@ -266,18 +316,90 @@ function renderHero() {
   $("school").textContent = CONFIG.school;
 }
 
-/* =========================
-   بناء الجدول
-========================= */
+/* =========================================
+   8. بناء جدول استعمال الزمن
+========================================= */
+
+function buildGroupHTML(lesson) {
+  const first = lesson.t[0];
+  const second = lesson.t[1];
+
+  const firstHour = `
+    <div class="group-hour">
+      <span class="hour-label">الساعة الأولى</span>
+
+      <div class="group-pair">
+        <span
+          class="group-subject"
+          style="--subject-color:${color(first)}"
+        >
+          <small>الفوج الأول</small>
+          <strong>${esc(first)}</strong>
+        </span>
+
+        <span
+          class="group-subject"
+          style="--subject-color:${color(second)}"
+        >
+          <small>الفوج الثاني</small>
+          <strong>${esc(second)}</strong>
+        </span>
+      </div>
+    </div>
+  `;
+
+  const secondHour = `
+    <div class="group-hour">
+      <span class="hour-label">الساعة الثانية</span>
+
+      <div class="group-pair">
+        <span
+          class="group-subject"
+          style="--subject-color:${color(second)}"
+        >
+          <small>الفوج الأول</small>
+          <strong>${esc(second)}</strong>
+        </span>
+
+        <span
+          class="group-subject"
+          style="--subject-color:${color(first)}"
+        >
+          <small>الفوج الثاني</small>
+          <strong>${esc(first)}</strong>
+        </span>
+      </div>
+    </div>
+  `;
+
+  return `
+    <div class="group-title">
+      <span>حصة أفواج</span>
+      <small>تبادل في الساعة الثانية</small>
+    </div>
+
+    <div class="group-hours">
+      ${firstHour}
+      ${secondHour}
+    </div>
+  `;
+}
 
 function buildTable() {
   const table = $("table");
 
-  let html = "<thead><tr>";
-  html += "<th>اليوم</th>";
+  let html = `
+    <thead>
+      <tr>
+        <th class="day-head">اليوم</th>
+  `;
 
-  for (const h of HEAD) {
-    html += `<th>${esc(h)}</th>`;
+  for (const slot of SLOTS) {
+    html += `
+      <th class="${slot.break ? "break-head" : ""}">
+        ${slot.label}
+      </th>
+    `;
   }
 
   html += "</tr></thead><tbody>";
@@ -285,50 +407,87 @@ function buildTable() {
   DAYS.forEach((day, dayIndex) => {
     const lessons = TT[dayIndex] || [];
 
-    html += `<tr data-day="${dayIndex}">`;
-    html += `<td>${esc(day)}</td>`;
+    html += `
+      <tr data-day="${dayIndex}">
+        <th class="day-cell">${esc(day)}</th>
+    `;
 
-    for (let slot = 0; slot < HEAD.length; slot++) {
-      const start = 8 + slot;
-      const end = start + 1;
+    for (let i = 0; i < SLOTS.length;) {
+      const slot = SLOTS[i];
+
+      if (slot.break) {
+        html += `
+          <td class="break-cell">
+            <span>استراحة</span>
+          </td>
+        `;
+
+        i++;
+        continue;
+      }
 
       const lesson = lessons.find(
-        (item) => item.s <= start && item.e >= end,
+        (item) =>
+          item.s <= slot.s &&
+          item.e >= slot.e
       );
 
       if (!lesson) {
-        html += "<td>—</td>";
+        html += `<td class="empty-slot">—</td>`;
+        i++;
         continue;
       }
+
+      const covered = SLOTS.slice(i).filter(
+        (part) =>
+          !part.break &&
+          part.s >= lesson.s &&
+          part.e <= lesson.e
+      );
+
+      const colspan = Math.max(1, covered.length);
+
+      const commonAttrs = `
+        colspan="${colspan}"
+        data-day="${dayIndex}"
+        data-start="${lesson.s}"
+        data-end="${lesson.e}"
+      `;
 
       if (lesson.off) {
-        html += `<td class="lesson off" style="--lesson-color:${color(
-          label(lesson.t),
-        )}">لا ندرس مساءً</td>`;
-        continue;
+        html += `
+          <td class="lesson off" ${commonAttrs}>
+            <span class="off-mark">✓</span>
+            <strong>${esc(lesson.t)}</strong>
+          </td>
+        `;
+      } else if (lesson.group) {
+        html += `
+          <td
+            class="lesson group-lesson group"
+            ${commonAttrs}
+            style="--lesson-color:${color(lesson.t[0])}"
+          >
+            ${buildGroupHTML(lesson)}
+          </td>
+        `;
+      } else {
+        html += `
+          <td
+            class="lesson"
+            ${commonAttrs}
+            style="--lesson-color:${color(lesson.t)}"
+          >
+            <span class="lesson-time">
+              ${hh(lesson.s)} – ${hh(lesson.e)}
+            </span>
+
+            <strong>${esc(lesson.t)}</strong>
+          </td>
+        `;
       }
 
-      const subject = label(lesson.t);
-      const subjectColor = Array.isArray(lesson.t)
-        ? color(lesson.t[0])
-        : color(lesson.t);
-
-      const isStart = lesson.s === start;
-      const isEnd = lesson.e === end;
-
-      html += `
-        <td
-          class="lesson ${isStart ? "lesson-start" : ""} ${
-            isEnd ? "lesson-end" : ""
-          }"
-          style="--lesson-color:${subjectColor}"
-          data-day="${dayIndex}"
-          data-start="${lesson.s}"
-          data-end="${lesson.e}"
-        >
-          ${isStart ? `<strong>${esc(subject)}</strong>` : ""}
-        </td>
-      `;
+      i += colspan;
     }
 
     html += "</tr>";
@@ -339,96 +498,62 @@ function buildTable() {
   table.innerHTML = html;
 }
 
-/* =========================
-   تحديد اليوم والحصة
-========================= */
+/* =========================================
+   9. تحديد الحصة الحالية
+========================================= */
 
 function markNow() {
   const now = new Date();
   const day = now.getDay();
 
+  // الأحد = 0 في JavaScript
+  // الإثنين = 1 ... الخميس = 4
   const dayIndex = day === 0 ? 0 : day - 1;
 
-  document.querySelectorAll(".today").forEach((el) => {
-    el.classList.remove("today");
-  });
+  document
+    .querySelectorAll(".today")
+    .forEach((el) => el.classList.remove("today"));
 
-  document.querySelectorAll(".current").forEach((el) => {
-    el.classList.remove("current");
-  });
+  document
+    .querySelectorAll(".current")
+    .forEach((el) => el.classList.remove("current"));
 
   const row = document.querySelector(
-    `tr[data-day="${dayIndex}"]`,
+    `tr[data-day="${dayIndex}"]`
   );
 
   if (row) {
     row.classList.add("today");
-
-    const firstCell = row.querySelector("td");
-
-    if (firstCell) {
-      firstCell.classList.add("today");
-    }
   }
 
   if (dayIndex < 0 || dayIndex >= TT.length) {
     return;
   }
 
-  const minutes = now.getHours() * 60 + now.getMinutes();
+  const minutes =
+    now.getHours() * 60 + now.getMinutes();
 
-  const lesson = TT[dayIndex].find((item) => {
-    const start = item.s * 60;
-    const end = item.e * 60;
+  const lesson = TT[dayIndex].find(
+    (item) =>
+      !item.off &&
+      minutes >= item.s &&
+      minutes < item.e
+  );
 
-    return minutes >= start && minutes < end;
-  });
+  if (!lesson) return;
 
-  if (!lesson || lesson.off) {
-    return;
+  const cell = document.querySelector(
+    `td.lesson[data-day="${dayIndex}"][data-start="${lesson.s}"]`
+  );
+
+  if (cell) {
+    cell.classList.add("current");
   }
-
-  document
-    .querySelectorAll(
-      `td.lesson[data-day="${dayIndex}"]`,
-    )
-    .forEach((cell) => {
-      const start = Number(cell.dataset.start);
-      const end = Number(cell.dataset.end);
-
-      if (minutes >= start * 60 && minutes < end * 60) {
-        cell.classList.add("current");
-      }
-    });
 }
 
-/* =========================
-   الحصة القادمة
-========================= */
-
-function allLessons() {
-  const result = [];
-
-  DAYS.forEach((day, dayIndex) => {
-    for (const lesson of TT[dayIndex] || []) {
-      if (lesson.off || !lesson.t) continue;
-
-      result.push({
-        day,
-        dayIndex,
-        start: lesson.s,
-        end: lesson.e,
-        subject: lesson.t,
-      });
-    }
-  });
-
-  return result;
-}
-
-function dur(start, end) {
-  return Math.max(0, end * 60 - start * 60);
-}
+/* =========================================
+   10. الحصة القادمة
+========================================= */
 
 function updateNext() {
   const now = new Date();
@@ -445,24 +570,26 @@ function updateNext() {
     return;
   }
 
-  const minutes = now.getHours() * 60 + now.getMinutes();
+  const minutes =
+    now.getHours() * 60 + now.getMinutes();
 
   const lessons = TT[dayIndex] || [];
 
-  const current = lessons.find((lesson) => {
-    return (
+  const current = lessons.find(
+    (lesson) =>
       !lesson.off &&
-      minutes >= lesson.s * 60 &&
-      minutes < lesson.e * 60
-    );
-  });
+      minutes >= lesson.s &&
+      minutes < lesson.e
+  );
 
   if (current) {
-    const remaining = current.e * 60 - minutes;
+    const remaining = current.e - minutes;
 
     $("nextLabel").textContent = "الحصة الحالية";
     $("nextSubject").textContent = label(current.t);
-    $("nextTime").textContent = `${hh(current.s)} — ${hh(current.e)}`;
+
+    $("nextTime").textContent =
+      `${hh(current.s)} — ${hh(current.e)}`;
 
     const hours = Math.floor(remaining / 60);
     const mins = remaining % 60;
@@ -478,15 +605,17 @@ function updateNext() {
   const next = lessons.find(
     (lesson) =>
       !lesson.off &&
-      minutes < lesson.s * 60,
+      minutes < lesson.s
   );
 
   if (next) {
-    const remaining = next.s * 60 - minutes;
+    const remaining = next.s - minutes;
 
     $("nextLabel").textContent = "الحصة القادمة";
     $("nextSubject").textContent = label(next.t);
-    $("nextTime").textContent = `${hh(next.s)} — ${hh(next.e)}`;
+
+    $("nextTime").textContent =
+      `${hh(next.s)} — ${hh(next.e)}`;
 
     const hours = Math.floor(remaining / 60);
     const mins = remaining % 60;
@@ -502,24 +631,28 @@ function updateNext() {
   $("nextLabel").textContent = "اليوم";
   $("nextSubject").textContent = "انتهت حصص اليوم";
   $("nextTime").textContent = "";
-  $("nextCount").textContent = "نتمنى لكم يومًا موفقًا 🌟";
+  $("nextCount").textContent =
+    "نتمنى لكم يومًا موفقًا 🌟";
 }
 
-/* =========================
-   قائمة التلاميذ
-========================= */
+/* =========================================
+   11. قائمة التلاميذ
+========================================= */
 
 const ICONS = {
   m: `
-    <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="24" height="24"
+      aria-hidden="true">
       <path
         fill="currentColor"
         d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"
       />
     </svg>
   `,
+
   f: `
-    <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="24" height="24"
+      aria-hidden="true">
       <path
         fill="currentColor"
         d="M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm-1 2h2v4h3v2h-3v3h-2v-3H8v-2h3v-4Z"
@@ -543,7 +676,7 @@ function renderStudents(list = STUDENTS) {
             ${esc(student.n)}
           </span>
         </article>
-      `,
+      `
     )
     .join("");
 
@@ -556,15 +689,15 @@ function filterStudents() {
     .toLowerCase();
 
   const filtered = STUDENTS.filter((student) =>
-    student.n.toLowerCase().includes(value),
+    student.n.toLowerCase().includes(value)
   );
 
   renderStudents(filtered);
 }
 
-/* =========================
-   الوضع الليلي
-========================= */
+/* =========================================
+   12. الوضع الليلي
+========================================= */
 
 function setupTheme() {
   const saved = localStorage.getItem("theme");
@@ -572,33 +705,40 @@ function setupTheme() {
   if (saved === "dark") {
     document.body.classList.add("dark");
     $("theme").textContent = "☀️";
+  } else {
+    $("theme").textContent = "☾";
   }
 
   $("theme").addEventListener("click", () => {
     document.body.classList.toggle("dark");
 
-    const dark = document.body.classList.contains("dark");
+    const dark =
+      document.body.classList.contains("dark");
 
     localStorage.setItem(
       "theme",
-      dark ? "dark" : "light",
+      dark ? "dark" : "light"
     );
 
-    $("theme").textContent = dark ? "☀️" : "🌙";
+    $("theme").textContent = dark ? "☀️" : "☾";
   });
 }
 
-/* =========================
-   التنقل
-========================= */
+/* =========================================
+   13. التنقل بين أقسام الموقع
+========================================= */
 
 function setupNavigation() {
+  if (!("IntersectionObserver" in window)) {
+    return;
+  }
+
   const sections = document.querySelectorAll(
-    "main > section",
+    "main > section"
   );
 
   const links = document.querySelectorAll(
-    ".links a",
+    ".links a"
   );
 
   const observer = new IntersectionObserver(
@@ -610,24 +750,24 @@ function setupNavigation() {
           link.classList.toggle(
             "active",
             link.getAttribute("href") ===
-              `#${entry.target.id}`,
+              `#${entry.target.id}`
           );
         });
       });
     },
     {
       rootMargin: "-25% 0px -65% 0px",
-    },
+    }
   );
 
-  sections.forEach((section) =>
-    observer.observe(section),
-  );
+  sections.forEach((section) => {
+    observer.observe(section);
+  });
 }
 
-/* =========================
-   الحساب
-========================= */
+/* =========================================
+   14. الحساب وتسجيل الدخول
+========================================= */
 
 let authMode = "login";
 let currentUser = null;
@@ -641,24 +781,17 @@ function setAuthMode(mode) {
 
   const isLogin = mode === "login";
 
-  $("loginTab").classList.toggle(
-    "active",
-    isLogin,
-  );
-
-  $("signupTab").classList.toggle(
-    "active",
-    !isLogin,
-  );
+  $("loginTab").classList.toggle("active", isLogin);
+  $("signupTab").classList.toggle("active", !isLogin);
 
   $("loginTab").setAttribute(
     "aria-selected",
-    String(isLogin),
+    String(isLogin)
   );
 
   $("signupTab").setAttribute(
     "aria-selected",
-    String(!isLogin),
+    String(!isLogin)
   );
 
   $("inviteField").hidden = isLogin;
@@ -740,8 +873,11 @@ function firebaseErrorMessage(error) {
 async function handleAuthSubmit(event) {
   event.preventDefault();
 
-  const identifier = $("authIdentifier").value.trim();
-  const password = $("authPassword").value;
+  const identifier =
+    $("authIdentifier").value.trim();
+
+  const password =
+    $("authPassword").value;
 
   clearStatus($("authStatus"));
 
@@ -749,7 +885,7 @@ async function handleAuthSubmit(event) {
     setStatus(
       $("authStatus"),
       "املأ جميع الخانات.",
-      "error",
+      "error"
     );
 
     return;
@@ -760,13 +896,14 @@ async function handleAuthSubmit(event) {
 
   try {
     if (authMode === "signup") {
-      const username = normalizeUsername(identifier);
+      const username =
+        normalizeUsername(identifier);
 
       if (!isValidUsername(username)) {
         setStatus(
           $("authStatus"),
           "اسم المستخدم يجب أن يكون من 3 إلى 24 حرفًا، ويحتوي على حروف إنجليزية أو أرقام أو _ فقط.",
-          "error",
+          "error"
         );
 
         return;
@@ -776,843 +913,20 @@ async function handleAuthSubmit(event) {
         setStatus(
           $("authStatus"),
           "كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل.",
-          "error",
+          "error"
         );
 
         return;
       }
 
-      const invite = $("inviteCode").value.trim();
+      const invite =
+        $("inviteCode").value.trim();
 
       if (invite !== CONFIG.inviteCode) {
         setStatus(
           $("authStatus"),
           "رمز الدعوة غير صحيح.",
-          "error",
+          "error"
         );
 
-        return;
-      }
-
-      const email = `${username}@class.local`;
-
-      const credential =
-        await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password,
-        );
-
-      await setDoc(
-        doc(db, "users", credential.user.uid),
-        {
-          username,
-          displayName: username,
-          createdAt: serverTimestamp(),
-        },
-      );
-
-      setStatus(
-        $("authStatus"),
-        "تم إنشاء الحساب بنجاح.",
-        "success",
-      );
-    } else {
-      const email =
-        authEmailFromIdentifier(identifier);
-
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-
-      setStatus(
-        $("authStatus"),
-        "تم تسجيل الدخول.",
-        "success",
-      );
-    }
-  } catch (error) {
-    console.error(error);
-
-    setStatus(
-      $("authStatus"),
-      firebaseErrorMessage(error),
-      "error",
-    );
-  } finally {
-    button.disabled = false;
-  }
-}
-
-async function loadUserProfile(user) {
-  if (!user) return;
-
-  const userRef = doc(db, "users", user.uid);
-
-  try {
-    const snapshot = await new Promise(
-      (resolve, reject) => {
-        const unsubscribe = onSnapshot(
-          userRef,
-          (snap) => {
-            unsubscribe();
-            resolve(snap);
-          },
-          reject,
-        );
-      },
-    );
-
-    if (snapshot.exists()) {
-      const data = snapshot.data();
-
-      currentUserName =
-        data.displayName ||
-        data.username ||
-        user.email?.split("@")[0] ||
-        "عضو القسم";
-
-      return;
-    }
-
-    const fallbackName =
-      user.email?.toLowerCase() ===
-      CONFIG.adminEmail.toLowerCase()
-        ? "مدير القسم"
-        : user.email?.split("@")[0] ||
-          "عضو القسم";
-
-    currentUserName = fallbackName;
-
-    await setDoc(
-      userRef,
-      {
-        username:
-          user.email?.split("@")[0] ||
-          "member",
-        displayName: fallbackName,
-        createdAt: serverTimestamp(),
-      },
-      { merge: true },
-    );
-  } catch (error) {
-    console.error(
-      "تعذر تحميل ملف المستخدم:",
-      error,
-    );
-
-    currentUserName =
-      user.email?.split("@")[0] ||
-      "عضو القسم";
-  }
-}
-
-async function updateAccountUI(user) {
-  const loggedIn = Boolean(user);
-
-  $("authLoggedOut").hidden = loggedIn;
-  $("authLoggedIn").hidden = !loggedIn;
-
-  $("homeworkNav").hidden = !loggedIn;
-  $("chatNav").hidden = !loggedIn;
-
-  $("homework").hidden = !loggedIn;
-  $("chat").hidden = !loggedIn;
-
-  if (!loggedIn) {
-    $("accountName").textContent = "";
-    $("accountRole").textContent = "";
-    return;
-  }
-
-  $("accountName").textContent =
-    currentUserName;
-
-  if (isAdminUser(user)) {
-    $("accountRole").textContent =
-      "مدير القسم";
-    $("accountRole").classList.add(
-      "admin-role",
-    );
-  } else {
-    $("accountRole").textContent =
-      "عضو في القسم";
-    $("accountRole").classList.remove(
-      "admin-role",
-    );
-  }
-}
-
-async function handleLogout() {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-/* =========================
-   الواجبات
-========================= */
-
-function getSubjects() {
-  const subjects = new Set();
-
-  for (const day of TT) {
-    for (const lesson of day) {
-      if (lesson.off || !lesson.t) continue;
-
-      const values = Array.isArray(lesson.t)
-        ? lesson.t
-        : [lesson.t];
-
-      for (const subject of values) {
-        if (subject !== "لا ندرس مساءً") {
-          subjects.add(subject);
-        }
-      }
-    }
-  }
-
-  return [...subjects];
-}
-
-function populateHomeworkSubjects() {
-  const select = $("homeworkSubject");
-
-  select.innerHTML = "";
-
-  for (const subject of getSubjects()) {
-    const option =
-      document.createElement("option");
-
-    option.value = subject;
-    option.textContent = subject;
-
-    select.appendChild(option);
-  }
-}
-
-function setupHomeworkForm() {
-  $("homeworkDueDate").min = todayString();
-
-  $("homeworkText").addEventListener(
-    "input",
-    () => {
-      $("homeworkCharCount").textContent =
-        `${$("homeworkText").value.length} / ${CONFIG.maxHomeworkLength}`;
-    },
-  );
-
-  $("homeworkForm").addEventListener(
-    "submit",
-    addHomework,
-  );
-}
-
-async function addHomework(event) {
-  event.preventDefault();
-
-  if (!currentUser) {
-    return;
-  }
-
-  const subject =
-    $("homeworkSubject").value.trim();
-
-  const text =
-    $("homeworkText").value.trim();
-
-  const dueDate =
-    $("homeworkDueDate").value;
-
-  clearStatus($("homeworkStatus"));
-
-  if (!subject || !text || !dueDate) {
-    setStatus(
-      $("homeworkStatus"),
-      "املأ جميع الخانات.",
-      "error",
-    );
-
-    return;
-  }
-
-  if (text.length > CONFIG.maxHomeworkLength) {
-    setStatus(
-      $("homeworkStatus"),
-      "الواجب طويل جدًا.",
-      "error",
-    );
-
-    return;
-  }
-
-  if (dueDate < todayString()) {
-    setStatus(
-      $("homeworkStatus"),
-      "لا يمكن إضافة واجب بتاريخ قديم.",
-      "error",
-    );
-
-    return;
-  }
-
-  const button =
-    $("homeworkForm").querySelector(
-      "button[type='submit']",
-    );
-
-  button.disabled = true;
-
-  try {
-    await addDoc(
-      collection(db, "homework"),
-      {
-        subject,
-        text,
-        dueDate,
-        authorName: currentUserName,
-        authorUid: currentUser.uid,
-        createdAt: serverTimestamp(),
-      },
-    );
-
-    $("homeworkText").value = "";
-    $("homeworkDueDate").value = "";
-    $("homeworkCharCount").textContent =
-      "0 / 500";
-
-    setStatus(
-      $("homeworkStatus"),
-      "تمت إضافة الواجب.",
-      "success",
-    );
-  } catch (error) {
-    console.error(error);
-
-    setStatus(
-      $("homeworkStatus"),
-      "تعذر إضافة الواجب. تحقق من اتصال Firebase.",
-      "error",
-    );
-  } finally {
-    button.disabled = false;
-  }
-}
-
-function renderHomework(snapshot) {
-  const list = $("homeworkList");
-
-  list.innerHTML = "";
-
-  const docs = snapshot.docs
-    .map((item) => ({
-      id: item.id,
-      ...item.data(),
-    }))
-    .filter(
-      (item) =>
-        item.dueDate &&
-        item.dueDate >= todayString(),
-    )
-    .sort((a, b) =>
-      a.dueDate.localeCompare(b.dueDate),
-    );
-
-  $("homeworkEmpty").hidden =
-    docs.length !== 0;
-
-  for (const homework of docs) {
-    const article =
-      document.createElement("article");
-
-    article.className = "homework-item";
-
-    const top =
-      document.createElement("div");
-
-    top.className = "homework-top";
-
-    const subject =
-      document.createElement("strong");
-
-    subject.className =
-      "homework-subject";
-
-    subject.textContent =
-      homework.subject;
-
-    const due =
-      document.createElement("span");
-
-    due.className = "homework-due";
-
-    if (homework.dueDate === todayString()) {
-      due.classList.add("today");
-      due.textContent = "اليوم";
-    } else {
-      due.textContent =
-        formatDate(homework.dueDate);
-    }
-
-    top.append(subject, due);
-
-    const text =
-      document.createElement("p");
-
-    text.className = "homework-text";
-    text.textContent = homework.text;
-
-    const meta =
-      document.createElement("div");
-
-    meta.className = "homework-meta";
-
-    const author =
-      document.createElement("span");
-
-    author.textContent =
-      `بواسطة ${homework.authorName || "عضو القسم"}`;
-
-    meta.appendChild(author);
-
-    const canDelete =
-      currentUser &&
-      (homework.authorUid ===
-        currentUser.uid ||
-        isAdminUser(currentUser));
-
-    if (canDelete) {
-      const deleteButton =
-        document.createElement("button");
-
-      deleteButton.type = "button";
-      deleteButton.className =
-        "delete-btn";
-      deleteButton.textContent =
-        "حذف";
-
-      deleteButton.addEventListener(
-        "click",
-        () =>
-          deleteHomework(
-            homework.id,
-          ),
-      );
-
-      meta.appendChild(deleteButton);
-    }
-
-    article.append(top, text, meta);
-    list.appendChild(article);
-  }
-}
-
-async function deleteHomework(id) {
-  if (!currentUser || !id) return;
-
-  const confirmed = window.confirm(
-    "هل تريد حذف هذا الواجب؟",
-  );
-
-  if (!confirmed) return;
-
-  try {
-    await deleteDoc(
-      doc(db, "homework", id),
-    );
-  } catch (error) {
-    console.error(error);
-
-    setStatus(
-      $("homeworkStatus"),
-      "تعذر حذف الواجب.",
-      "error",
-    );
-  }
-}
-
-function subscribeHomework() {
-  if (homeworkUnsubscribe) {
-    homeworkUnsubscribe();
-    homeworkUnsubscribe = null;
-  }
-
-  if (!currentUser) return;
-
-  const q = query(
-    collection(db, "homework"),
-    where(
-      "dueDate",
-      ">=",
-      todayString(),
-    ),
-    orderBy("dueDate", "asc"),
-  );
-
-  homeworkUnsubscribe = onSnapshot(
-    q,
-    (snapshot) => {
-      renderHomework(snapshot);
-    },
-    (error) => {
-      console.error(error);
-
-      $("homeworkEmpty").hidden = false;
-      $("homeworkEmpty").textContent =
-        "تعذر تحميل الواجبات.";
-    },
-  );
-}
-
-/* =========================
-   الدردشة
-========================= */
-
-let lastMessageTime = 0;
-
-function setupChat() {
-  $("chatInput").addEventListener(
-    "input",
-    autoResizeChatInput,
-  );
-
-  $("chatForm").addEventListener(
-    "submit",
-    sendMessage,
-  );
-}
-
-function autoResizeChatInput() {
-  const input = $("chatInput");
-
-  input.style.height = "auto";
-  input.style.height =
-    `${Math.min(input.scrollHeight, 130)}px`;
-}
-
-async function sendMessage(event) {
-  event.preventDefault();
-
-  if (!currentUser) return;
-
-  const now = Date.now();
-
-  if (
-    now - lastMessageTime <
-    CONFIG.chatCooldown
-  ) {
-    setStatus(
-      $("chatStatus"),
-      "انتظر قليلًا قبل إرسال رسالة أخرى.",
-      "error",
-    );
-
-    return;
-  }
-
-  const text =
-    $("chatInput").value.trim();
-
-  clearStatus($("chatStatus"));
-
-  if (!text) {
-    return;
-  }
-
-  if (text.length > CONFIG.maxMessageLength) {
-    setStatus(
-      $("chatStatus"),
-      "الرسالة طويلة جدًا.",
-      "error",
-    );
-
-    return;
-  }
-
-  const button = $("chatSend");
-  button.disabled = true;
-
-  try {
-    await addDoc(
-      collection(db, "messages"),
-      {
-        text,
-        authorName: currentUserName,
-        authorUid: currentUser.uid,
-        createdAt: serverTimestamp(),
-      },
-    );
-
-    lastMessageTime = Date.now();
-
-    $("chatInput").value = "";
-    $("chatInput").style.height = "auto";
-  } catch (error) {
-    console.error(error);
-
-    setStatus(
-      $("chatStatus"),
-      "تعذر إرسال الرسالة.",
-      "error",
-    );
-  } finally {
-    button.disabled = false;
-  }
-}
-
-function renderChat(snapshot) {
-  const container =
-    $("chatMessages");
-
-  container.innerHTML = "";
-
-  if (snapshot.empty) {
-    const empty =
-      document.createElement("div");
-
-    empty.className = "chat-empty";
-    empty.textContent =
-      "لا توجد رسائل بعد. كن أول من يكتب 👋";
-
-    container.appendChild(empty);
-
-    return;
-  }
-
-  const messages = [...snapshot.docs]
-    .reverse();
-
-  for (const item of messages) {
-    const message = item.data();
-
-    const wrapper =
-      document.createElement("div");
-
-    wrapper.className = "chat-message";
-
-    if (
-      currentUser &&
-      message.authorUid ===
-        currentUser.uid
-    ) {
-      wrapper.classList.add("mine");
-    }
-
-    const bubble =
-      document.createElement("div");
-
-    bubble.className = "chat-bubble";
-    bubble.textContent = message.text;
-
-    const meta =
-      document.createElement("div");
-
-    meta.className = "chat-meta";
-
-    const name =
-      document.createElement("span");
-
-    name.className = "chat-name";
-    name.textContent =
-      message.authorName ||
-      "عضو القسم";
-
-    meta.appendChild(name);
-
-    const time =
-      document.createElement("span");
-
-    time.textContent =
-      formatTime(message.createdAt);
-
-    meta.appendChild(time);
-
-    const canDelete =
-      currentUser &&
-      (message.authorUid ===
-        currentUser.uid ||
-        isAdminUser(currentUser));
-
-    if (canDelete) {
-      const deleteButton =
-        document.createElement("button");
-
-      deleteButton.type = "button";
-      deleteButton.className =
-        "chat-delete";
-      deleteButton.textContent =
-        "حذف";
-
-      deleteButton.addEventListener(
-        "click",
-        () => deleteMessage(item.id),
-      );
-
-      meta.appendChild(deleteButton);
-    }
-
-    wrapper.append(bubble, meta);
-    container.appendChild(wrapper);
-  }
-
-  requestAnimationFrame(() => {
-    container.scrollTop =
-      container.scrollHeight;
-  });
-}
-
-async function deleteMessage(id) {
-  if (!currentUser || !id) return;
-
-  const confirmed = window.confirm(
-    "هل تريد حذف هذه الرسالة؟",
-  );
-
-  if (!confirmed) return;
-
-  try {
-    await deleteDoc(
-      doc(db, "messages", id),
-    );
-  } catch (error) {
-    console.error(error);
-
-    setStatus(
-      $("chatStatus"),
-      "تعذر حذف الرسالة.",
-      "error",
-    );
-  }
-}
-
-function subscribeChat() {
-  if (chatUnsubscribe) {
-    chatUnsubscribe();
-    chatUnsubscribe = null;
-  }
-
-  if (!currentUser) return;
-
-  const q = query(
-    collection(db, "messages"),
-    orderBy("createdAt", "desc"),
-    limit(80),
-  );
-
-  chatUnsubscribe = onSnapshot(
-    q,
-    (snapshot) => {
-      renderChat(snapshot);
-    },
-    (error) => {
-      console.error(error);
-
-      $("chatMessages").innerHTML = "";
-
-      const errorMessage =
-        document.createElement("div");
-
-      errorMessage.className =
-        "chat-empty";
-
-      errorMessage.textContent =
-        "تعذر تحميل الدردشة.";
-
-      $("chatMessages").appendChild(
-        errorMessage,
-      );
-    },
-  );
-}
-
-/* =========================
-   مراقبة تسجيل الدخول
-========================= */
-
-function setupAuthState() {
-  onAuthStateChanged(
-    auth,
-    async (user) => {
-      currentUser = user;
-
-      if (!user) {
-        currentUserName = "عضو القسم";
-
-        if (homeworkUnsubscribe) {
-          homeworkUnsubscribe();
-          homeworkUnsubscribe = null;
-        }
-
-        if (chatUnsubscribe) {
-          chatUnsubscribe();
-          chatUnsubscribe = null;
-        }
-
-        await updateAccountUI(null);
-
-        return;
-      }
-
-      await loadUserProfile(user);
-      await updateAccountUI(user);
-
-      subscribeHomework();
-      subscribeChat();
-    },
-  );
-}
-
-/* =========================
-   الأحداث
-========================= */
-
-$("search").addEventListener(
-  "input",
-  filterStudents,
-);
-
-$("loginTab").addEventListener(
-  "click",
-  () => setAuthMode("login"),
-);
-
-$("signupTab").addEventListener(
-  "click",
-  () => setAuthMode("signup"),
-);
-
-$("authForm").addEventListener(
-  "submit",
-  handleAuthSubmit,
-);
-
-$("logoutBtn").addEventListener(
-  "click",
-  handleLogout,
-);
-
-/* =========================
-   التشغيل
-========================= */
-
-renderHero();
-buildTable();
-renderStudents();
-markNow();
-updateNext();
-
-populateHomeworkSubjects();
-setupHomeworkForm();
-setupChat();
-setupTheme();
-setupNavigation();
-setupAuthState();
-
-setInterval(() => {
-  markNow();
-  updateNext();
-}, 30000);
+        
