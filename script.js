@@ -92,6 +92,7 @@ const STUDENTS = [
   { n: "عامر عامرهاجر", g: "f" },
   { n: "بن سعدة خولة", g: "f" },
   { n: "بن مرخي إيناس", g: "f" }
+  { n: "بو مجوط شرف الدين" },
 ];
 
 
@@ -1099,7 +1100,6 @@ function setupEventListeners() {
 
 function startSite() {
   renderHero();
-  buildGroupHTML();
   buildTable();
   markNow();
   updateNext();
