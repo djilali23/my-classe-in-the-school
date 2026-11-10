@@ -1005,23 +1005,27 @@ async function deleteMessage(id) {
 
 function setupEventListeners() {
 
-  // Authentication
-  const authForm = $("auth-form");
+    // Authentication
+  const authForm = $("authForm");
   if (authForm) {
     authForm.addEventListener("submit", handleAuthSubmit);
   }
 
-  const loginButton = $("show-login");
+  const loginButton = $("loginTab");
   if (loginButton) {
-    loginButton.addEventListener("click", () => setAuthMode("login"));
+    loginButton.addEventListener("click", () => {
+      setAuthMode("login");
+    });
   }
 
-  const signupButton = $("show-signup");
+  const signupButton = $("signupTab");
   if (signupButton) {
-    signupButton.addEventListener("click", () => setAuthMode("signup"));
+    signupButton.addEventListener("click", () => {
+      setAuthMode("signup");
+    });
   }
 
-  const logoutButton = $("logout-button");
+  const logoutButton = $("logoutBtn");
   if (logoutButton) {
     logoutButton.addEventListener("click", logout);
   }
