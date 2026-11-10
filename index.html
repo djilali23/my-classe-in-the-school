@@ -1,640 +1,190 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0b4ca5">
-  <meta name="description" content="بوابة قسمنا — فضاء رقمي خاص بتلاميذ القسم">
-
-  <title>بوابة قسمنا | فضاء القسم</title>
-
-  <link rel="manifest" href="./manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="بوابة قسمنا">
-
-  <link rel="icon" href="./icon-192.png" type="image/png">
-  <link rel="apple-touch-icon" href="./icon-192.png">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بوابة القسم - 1L1</title>
+  <!-- خط كايورو العصري -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <!-- رأس الموقع -->
-  <header class="site-header">
-
-    <a class="brand" href="#home" aria-label="العودة إلى الرئيسية">
-      <span class="brand-mark">ب</span>
-
-      <span class="brand-copy">
-        <strong>بوابة قسمنا</strong>
-        <small>مساحتنا الدراسية</small>
-      </span>
-    </a>
-
-    <nav class="main-nav links" aria-label="التنقل الرئيسي">
-      <a href="#home" class="active">الرئيسية</a>
+  <!-- شريط التنقل العلوي -->
+  <header class="nav">
+    <div class="brand">
+      <span>🎓</span>
+      <span id="className">قسم 1L1</span>
+    </div>
+    
+    <nav class="links">
+      <a href="#hero" class="active">الرئيسية</a>
       <a href="#schedule">استعمال الزمن</a>
-      <a href="#students">التلاميذ</a>
-
-      <a href="#homework" id="homeworkNav" hidden>
-        الواجبات
-      </a>
-
-      <a href="#chat" id="chatNav" hidden>
-        الدردشة
-      </a>
-
-      <a href="#account">الحساب</a>
+      <a href="#students">قائمة التلاميذ</a>
+      <a href="#homework" id="homeworkNav" hidden>الواجبات</a>
+      <a href="#chat" id="chatNav" hidden>دردشة القسم</a>
+      <a href="#account">حسابي</a>
     </nav>
 
-    <button
-      id="theme"
-      class="theme-toggle icon-btn"
-      type="button"
-      aria-label="تبديل الوضع الليلي"
-      title="تبديل المظهر"
-    >
-      <span class="theme-icon" aria-hidden="true">☾</span>
-    </button>
-
+    <button id="theme" class="icon-btn" aria-label="تغيير المظهر">🌙</button>
   </header>
 
+  <main>
+    <!-- واجهة البداية (Hero) -->
+    <section id="hero" class="hero">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      
+      <div class="chip" id="year">السنة الدراسية 2026 / 2027</div>
+      <h1>بوابة قسم التعليم الثانوي</h1>
+      <p class="school" id="school">ثانوية المجاهد المرحوم مول الكاف أحمد</p>
 
-  <main class="page-shell">
-
-    <!-- الرئيسية -->
-    <section id="home" class="hero-section">
-
-      <div class="hero-copy">
-
-        <span class="eyebrow">
-          <span class="live-dot"></span>
-          فضاء رقمي يجمعنا
-        </span>
-
-        <p class="hero-year" id="year"></p>
-
-        <h1>
-          مرحبًا بكم في
-          <br>
-          <span id="className"></span>
-        </h1>
-
-        <p class="hero-school" id="school"></p>
-
-        <div class="hero-actions">
-
-          <a class="button button-light" href="#schedule">
-            عرض استعمال الزمن
-            <span>←</span>
-          </a>
-
-          <a class="hero-text-link" href="#students">
-            اكتشف زملاءك
-          </a>
-
-        </div>
-
-      </div>
-
-
-      <div class="hero-side">
-
-        <div class="hero-orbit orbit-one"></div>
-        <div class="hero-orbit orbit-two"></div>
-
-        <div class="hero-emblem">
-          <span>✦</span>
-          <strong>1L1</strong>
-          <small>CLASS SPACE</small>
-        </div>
-
-        <div class="floating-note note-top">
-          <span class="note-icon">✎</span>
-
-          <span>
-            <b>نتعلم معًا</b>
-            <small>خطوة نحو النجاح</small>
-          </span>
-        </div>
-
-        <div class="floating-note note-bottom">
-          <span class="note-icon">◷</span>
-
-          <span>
-            <b>نظّم يومك</b>
-            <small>تابع حصصك بسهولة</small>
-          </span>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ملخص الحصة القادمة -->
-    <section class="quick-panel" aria-label="ملخص اليوم">
-
-      <div class="quick-heading">
-
-        <span class="quick-icon">◷</span>
-
-        <div>
-          <small id="nextLabel">...</small>
-          <strong>متابعة الحصص</strong>
-        </div>
-
-      </div>
-
-      <div class="quick-main">
-        <strong id="nextSubject">...</strong>
+      <!-- بطاقة الحصة الحالية / القادمة -->
+      <div class="next-card">
+        <small id="nextLabel">الحالة</small>
+        <strong id="nextSubject">جاري التحميل...</strong>
         <span id="nextTime"></span>
+        <span class="count" id="nextCount"></span>
       </div>
-
-      <div class="quick-footer">
-
-        <span class="status-pill">
-          <i></i>
-          تحديث تلقائي
-        </span>
-
-        <span id="nextCount" class="count"></span>
-
-      </div>
-
     </section>
 
-
-    <!-- استعمال الزمن -->
-    <section id="schedule" class="content-section">
-
-      <div class="section-heading">
-
-        <div>
-          <span class="section-kicker">WEEKLY PLAN</span>
-
-          <h2 class="title">
-            استعمال الزمن
-          </h2>
-
-          <p class="section-description">
-            جدولك الأسبوعي في مكان واحد، مع تمييز اليوم والحصة الحالية.
-          </p>
-        </div>
-
-        <span class="section-symbol">▦</span>
-
+    <!-- قسم استعمال الزمن -->
+    <section id="sec-schedule" class="sec">
+      <h2 class="title" id="schedule">استعمال الزمن</h2>
+      <p class="hint">جدول الحصص الأسبوعي للقسم (اسحب الجدول جانبياً للمشاهدة على الهاتف)</p>
+      
+      <div class="table-wrap">
+        <table id="table">
+          <!-- سيتم توليد الجدول تلقائياً عبر JavaScript -->
+        </table>
       </div>
-
-
-      <div class="schedule-legend">
-
-        <span>
-          <i class="legend-dot legend-single"></i>
-          حصة عادية
-        </span>
-
-        <span>
-          <i class="legend-dot legend-group"></i>
-          حصة أفواج مع التبادل
-        </span>
-
-        <span>
-          <i class="legend-dot legend-current"></i>
-          الحصة الحالية
-        </span>
-
-      </div>
-
-
-      <div
-        class="table-wrap"
-        tabindex="0"
-        role="region"
-        aria-label="جدول استعمال الزمن"
-      >
-        <table id="table"></table>
-      </div>
-
-      <p class="table-note">
-        في حصص الأفواج، يتبادل الفوجان المادتين بين الساعة الأولى والثانية.
-      </p>
-
     </section>
 
+    <!-- قسم قائمة التلاميذ -->
+    <section class="sec">
+      <h2 class="title" id="students">قائمة التلاميذ <span class="num" id="studentCount">0</span></h2>
+      <p class="hint">ابحث عن اسم تلميذ في قائمة القسم</p>
 
-    <!-- التلاميذ -->
-    <section id="students" class="content-section">
-
-      <div class="section-heading">
-
-        <div>
-          <span class="section-kicker">OUR CLASS</span>
-
-          <h2 class="title">
-            تلاميذ القسم
-          </h2>
-
-          <p class="section-description">
-            قائمة أعضاء فوجنا الدراسي.
-          </p>
-        </div>
-
-        <span class="student-total">
-          <strong id="studentCount">0</strong>
-          <small>تلميذًا</small>
-        </span>
-
+      <div class="search">
+        <span>🔍</span>
+        <input type="text" id="search" placeholder="ابحث عن اسم التلميذ...">
       </div>
 
-
-      <label class="search">
-
-        <span aria-hidden="true">⌕</span>
-
-        <input
-          id="search"
-          type="search"
-          placeholder="ابحث عن اسم تلميذ..."
-          aria-label="بحث عن تلميذ"
-        >
-
-      </label>
-
-
-      <div class="people" id="people"></div>
-
-      <p id="empty" class="empty" hidden>
-        لا توجد نتائج مطابقة لبحثك.
-      </p>
-
+      <div class="people" id="people">
+        <!-- سيتم توليد التلاميذ تلقائياً عبر JavaScript -->
+      </div>
+      <div id="empty" class="empty" hidden>لا توجد نتائج مطابقة للبحث.</div>
     </section>
 
+    <!-- قسم الواجبات المنزلية (يظهر عند تسجيل الدخول) -->
+    <section id="homework" class="sec" hidden>
+      <h2 class="title">الواجبات المنزلية</h2>
+      <p class="hint">متابعة الفروض والواجبات المطلوبة في المواد</p>
 
-    <!-- الحساب -->
-    <section id="account" class="content-section account-section">
-
-      <div class="section-heading">
-
-        <div>
-          <span class="section-kicker">YOUR SPACE</span>
-
-          <h2 class="title">
-            حسابك الشخصي
-          </h2>
-
-          <p class="section-description">
-            سجّل الدخول للوصول إلى خدمات القسم الخاصة.
-          </p>
-        </div>
-
-        <span class="section-symbol">◎</span>
-
-      </div>
-
-
-      <!-- واجهة تسجيل الدخول -->
-      <div id="authLoggedOut" class="auth-card">
-
-        <div class="auth-intro">
-
-          <span class="auth-mark">↗</span>
-
-          <div>
-            <strong>مرحبًا بعودتك</strong>
-            <p>ادخل إلى حسابك لمتابعة جديد القسم.</p>
-          </div>
-
-        </div>
-
-
-        <div class="auth-tabs" role="tablist" aria-label="الحساب">
-
-          <button
-            id="loginTab"
-            class="auth-tab active"
-            type="button"
-            role="tab"
-            aria-selected="true"
-          >
-            تسجيل الدخول
-          </button>
-
-          <button
-            id="signupTab"
-            class="auth-tab"
-            type="button"
-            role="tab"
-            aria-selected="false"
-          >
-            إنشاء حساب
-          </button>
-
-        </div>
-
-
-        <form id="authForm" class="auth-form">
-
-          <label class="field">
-
-            <span id="identifierLabel">
-              اسم المستخدم أو البريد الإلكتروني
-            </span>
-
-            <input
-              id="authIdentifier"
-              type="text"
-              autocomplete="username"
-              maxlength="80"
-              placeholder="اسم المستخدم"
-              required
-            >
-
-          </label>
-
-
-          <label class="field">
-
-            <span>كلمة المرور</span>
-
-            <input
-              id="authPassword"
-              type="password"
-              autocomplete="current-password"
-              minlength="6"
-              maxlength="128"
-              placeholder="أدخل كلمة المرور"
-              required
-            >
-
-          </label>
-
-
-          <label id="inviteField" class="field" hidden>
-
-            <span>رمز الدعوة للقسم</span>
-
-            <input
-              id="inviteCode"
-              type="text"
-              autocomplete="off"
-              maxlength="64"
-              placeholder="رمز الدعوة"
-            >
-
-          </label>
-
-
-          <button
-            id="authSubmit"
-            class="button button-primary"
-            type="submit"
-          >
-            تسجيل الدخول
-          </button>
-
-          <p id="authStatus" class="form-status" role="alert"></p>
-
-        </form>
-
-      </div>
-
-
-      <!-- واجهة الحساب بعد تسجيل الدخول -->
-      <div id="authLoggedIn" class="account-card" hidden>
-
-        <div class="account-avatar" aria-hidden="true">
-          👤
-        </div>
-
-        <div class="account-info">
-          <strong id="accountName">...</strong>
-          <span id="accountRole">عضو في القسم</span>
-        </div>
-
-        <button
-          id="logoutBtn"
-          class="danger-btn"
-          type="button"
-        >
-          تسجيل الخروج
-        </button>
-
-      </div>
-
-    </section>
-
-
-    <!-- الواجبات -->
-    <section
-      id="homework"
-      class="content-section private-section"
-      hidden
-    >
-
-      <div class="section-heading">
-
-        <div>
-          <span class="section-kicker">CLASS TASKS</span>
-
-          <h2 class="title">
-            واجبات القسم
-          </h2>
-
-          <p class="section-description">
-            أضف الواجبات وتابع مواعيد تسليمها.
-          </p>
-        </div>
-
-        <span class="section-symbol">▤</span>
-
-      </div>
-
-
-      <form id="homeworkForm" class="content-card">
-
-        <div class="form-grid">
-
+      <div class="content-card">
+        <form id="homeworkForm" class="form-grid">
           <label class="field">
             <span>المادة</span>
-            <select id="homeworkSubject" required></select>
+            <select id="homeworkSubject"></select>
           </label>
 
           <label class="field">
-            <span>تاريخ التسليم</span>
-            <input
-              id="homeworkDueDate"
-              type="date"
-              required
-            >
+            <span>تاريخ التسليم الأقصى</span>
+            <input type="date" id="homeworkDueDate">
           </label>
 
-        </div>
+          <label class="field" style="grid-column: 1 / -1;">
+            <span>نص الواجب</span>
+            <textarea id="homeworkText" placeholder="اكتب تفاصيل الواجب هنا..." maxlength="500"></textarea>
+            <span class="char-count" id="homeworkCharCount">0 / 500</span>
+          </label>
 
-
-        <label class="field">
-
-          <span>تفاصيل الواجب</span>
-
-          <textarea
-            id="homeworkText"
-            maxlength="500"
-            rows="4"
-            placeholder="اكتب تفاصيل الواجب..."
-            required
-          ></textarea>
-
-        </label>
-
-
-        <div class="form-bottom">
-
-          <span class="char-count" id="homeworkCharCount">
-            0 / 500
-          </span>
-
-          <button class="button button-primary" type="submit">
-            إضافة الواجب
-          </button>
-
-        </div>
-
-        <p id="homeworkStatus" class="form-status" role="alert"></p>
-
-      </form>
-
-
-      <div id="homeworkList" class="homework-list"></div>
-
-      <p id="homeworkEmpty" class="empty" hidden>
-        لا توجد واجبات حاليًا.
-      </p>
-
-    </section>
-
-
-    <!-- دردشة القسم -->
-    <section
-      id="chat"
-      class="content-section private-section"
-      hidden
-    >
-
-      <div class="section-heading">
-
-        <div>
-          <span class="section-kicker">CLASS CHAT</span>
-
-          <h2 class="title">
-            دردشة القسم
-          </h2>
-
-          <p class="section-description">
-            تواصل مع أعضاء القسم في مساحة واحدة.
-          </p>
-        </div>
-
-        <span class="section-symbol">◌</span>
-
+          <div class="form-bottom" style="grid-column: 1 / -1;">
+            <button type="submit" class="primary-btn">إضافة واجب جديد</button>
+            <span id="homeworkStatus" class="form-status"></span>
+          </div>
+        </form>
       </div>
 
+      <div class="homework-list" id="homeworkList"></div>
+      <div id="homeworkEmpty" class="empty">لا توجد واجبات منزلية قادمة حالياً.</div>
+    </section>
+
+    <!-- قسم دردشة القسم (يظهر عند تسجيل الدخول) -->
+    <section id="chat" class="sec" hidden>
+      <h2 class="title">دردشة القسم</h2>
+      <p class="hint">مساحة للتواصل بين تلاميذ القسم</p>
 
       <div class="chat-card">
-
-        <div
-          id="chatMessages"
-          class="chat-messages"
-          aria-live="polite"
-          aria-label="رسائل دردشة القسم"
-        ></div>
-
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-empty">جاري تحميل الرسائل...</div>
+        </div>
 
         <form id="chatForm" class="chat-form">
-
-          <label class="chat-input-wrap">
-
-            <span class="sr-only">رسالتك</span>
-
-            <textarea
-              id="chatInput"
-              maxlength="500"
-              rows="1"
-              placeholder="اكتب رسالة..."
-              aria-label="اكتب رسالة"
-              required
-            ></textarea>
-
-          </label>
-
-
-          <button
-            id="chatSend"
-            class="button button-primary"
-            type="submit"
-            aria-label="إرسال الرسالة"
-          >
-            إرسال
-          </button>
-
+          <div class="chat-input-wrap">
+            <textarea id="chatInput" placeholder="اكتب رسالتك هنا..." rows="1" maxlength="500"></textarea>
+          </div>
+          <button type="submit" class="primary-btn" id="chatSend">إرسال</button>
         </form>
-
-        <p id="chatStatus" class="form-status" role="alert"></p>
-
+        <span id="chatStatus" class="form-status" style="padding: 0 16px 16px;"></span>
       </div>
-
     </section>
 
+    <!-- قسم الحساب وتسجيل الدخول -->
+    <section id="account" class="sec">
+      <h2 class="title">حسابي في البوابة</h2>
+      <p class="hint">قم بتسجيل الدخول أو إنشاء حساب للمشاركة في الواجبات والدردشة</p>
+
+      <!-- حالة الخروج (التسجيل) -->
+      <div id="authLoggedOut" class="auth-card">
+        <div class="auth-tabs" role="tablist">
+          <button id="loginTab" class="auth-tab active" role="tab" aria-selected="true">تسجيل الدخول</button>
+          <button id="signupTab" class="auth-tab" role="tab" aria-selected="false">إنشاء حساب</button>
+        </div>
+
+        <form id="authForm" class="auth-form">
+          <label class="field">
+            <span id="identifierLabel">اسم المستخدم أو البريد الإلكتروني</span>
+            <input type="text" id="authIdentifier" placeholder="اسم المستخدم" autocomplete="username">
+          </label>
+
+          <label class="field">
+            <span>كلمة المرور</span>
+            <input type="password" id="authPassword" placeholder="••••••••" autocomplete="current-password">
+          </label>
+
+          <label class="field" id="inviteField" hidden>
+            <span>رمز الدعوة الخاص بالقسم</span>
+            <input type="text" id="inviteCode" placeholder="أدخل رمز الدعوة">
+          </label>
+
+          <div style="margin-top: 20px;">
+            <button type="submit" class="primary-btn" id="authSubmit" style="width: 100%;">تسجيل الدخول</button>
+          </div>
+
+          <span id="authStatus" class="form-status" style="margin-top: 15px; display: block; text-align: center;"></span>
+        </form>
+      </div>
+
+      <!-- حالة الدخول الفعلي -->
+      <div id="authLoggedIn" class="account-card" hidden>
+        <div class="account-avatar">👤</div>
+        <div class="account-info">
+          <strong id="accountName">اسم المستخدم</strong>
+          <span id="accountRole">عضو في القسم</span>
+        </div>
+        <button id="logoutBtn" class="danger-btn">تسجيل الخروج</button>
+      </div>
+    </section>
   </main>
 
-
-  <!-- تذييل الموقع -->
-  <footer class="site-footer">
-
-    <a class="footer-brand" href="#home">
-      <span class="brand-mark">ب</span>
-      <strong>بوابة قسمنا</strong>
-    </a>
-
-    <p>
-      مساحتنا الدراسية · معًا نحو الأفضل
-    </p>
-
-    <a href="#home" class="back-top">
-      العودة للأعلى ↑
-    </a>
-
+  <!-- تذييل الصفحة -->
+  <footer class="foot">
+    <p>جميع الحقوق محفوظة © 2026 — بوابة قسم 1L1</p>
   </footer>
 
-
-  <!-- JavaScript -->
+  <!-- ملف البرمجة -->
   <script type="module" src="script.js"></script>
-
-
-  <!-- PWA -->
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker
-          .register("./service-worker.js")
-          .catch((error) => {
-            console.error(
-              "تعذر تسجيل Service Worker:",
-              error
-            );
-          });
-      });
-    }
-  </script>
-
 </body>
-</html>
+  </html>
+  
